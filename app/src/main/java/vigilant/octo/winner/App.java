@@ -3,17 +3,41 @@
  */
 package vigilant.octo.winner;
 
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
+import com.google.common.io.CharStreams;
+
 // EJERCICIO: Ingresar a la pagina https://gorest.co.in/
 // Consumir el API: https://gorest.co.in/public/v2/users
 // La encontrará en la seccion de RESOURCES
 // El ejercicio consiste en consumir esa API y mostrar los valores: id, name, email, gender y estatus.
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+    private static final String GOREST_URL = "https://gorest.co.in/public/v2/users";
+    private static final Gson gson = new Gson();
+
+    public List<User> getUsers() throws Exception {
+        String contents = getContentsFromURL(GOREST_URL);
+        User[] users = gson.fromJson(contents, User[].class);
+        return ImmutableList.copyOf(users);
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    public static void main(String[] args) throws Exception {
+        App app = new App();
+        for (User user : app.getUsers()) {
+            System.out.println(user);
+        }
+    }
+
+    private String getContentsFromURL(String url) throws Exception {
+        URL gorest = new URL(url);
+
+        return CharStreams.toString(new InputStreamReader(
+                gorest.openStream(), Charsets.UTF_8));
     }
 }

@@ -20,8 +20,9 @@ dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
 
+    implementation("com.google.code.gson:gson:2.10.1")
     // This dependency is used by the application.
-    implementation("com.google.guava:guava:31.1-jre")
+    implementation("com.google.guava:guava:32.1.3-jre")
 }
 
 application {
